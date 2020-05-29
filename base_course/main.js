@@ -1,10 +1,10 @@
 let app = new Vue({
   el: '#app',
   data: {
+    brand: 'Vue mastery',
     product: 'Boots',
     description: 'This is the best description ever',
-    image: 'vmSocks-green-onWhite.jpg',
-    inStock: true,
+    selectedVariant: 0,
     onSale: false,
     details: ['80% cotton', '20% polyester', 'Gender-neutral'],
     variants: [
@@ -12,11 +12,13 @@ let app = new Vue({
         variantId: 2234,
         variantColor: 'green',
         variantImage: 'vmSocks-green-onWhite.jpg',
+        variantQuantity: 10,
       },
       {
         variantId: 2235,
         variantColor: 'blue',
         variantImage: 'vmSocks-blue-onWhite.jpg',
+        variantQuantity: 0,
       },
     ],
     cart: 0,
@@ -28,8 +30,19 @@ let app = new Vue({
     removeFromCart() {
       this.cart -= 1
     },
-    updateProduct(variantImage) {
-      this.image = variantImage
+    updateProduct(index) {
+      this.selectedVariant = index
+    },
+  },
+  computed: {
+    title() {
+      return this.brand + ' ' + this.product
+    },
+    image() {
+      return this.variants[this.selectedVariant].variantImage
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].variantQuantity
     },
   },
 })

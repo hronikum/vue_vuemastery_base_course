@@ -14,23 +14,25 @@
         <img :src="image" >
       </div>
       <div class="product-info">
-        <h1>{{ product }}</h1>
+        <h1>{{ title }}</h1>
         <p v-show="inStock">In Stock</p>
         <span v-show="onSale">On Sale!</span> 
         <ul>
           <li v-for="detail in details">{{ detail }}</li>
         </ul> 
-        <div v-for="variant in variants" 
+        <div v-for="(variant, index) in variants" 
           :key="variant.variantId" 
           class="color-box" 
           :style="{ backgroundColor: variant.variantColor }"
-          @mouseover="updateProduct(variant.variantImage)">
+          @mouseover="updateProduct(index)">
         </div>
         
         <button @click="addToCart" 
         :disabled="!inStock"
         :class="{disabledButton: !inStock}">Add to Cart</button>
-        <button @click="removeFromCart">Remove from Cart</button>
+        <button @click="removeFromCart"
+        :class="{disabledButton: cart <= 0 || !inStock}"
+        :disabled="cart <= 0 || !inStock">Remove from Cart</button>
 
         <div class="cart">
           <p>Cart({{ cart }})</p>
